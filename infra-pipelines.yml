@@ -6,5 +6,5 @@ pool:
 
 steps:
 - script: |
-    bicep ./bicep/main.bicep
+    bicep build ./bicep/main.bicep
   displayName: 'Build bicep files'
