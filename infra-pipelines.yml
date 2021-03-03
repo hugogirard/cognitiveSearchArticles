@@ -40,3 +40,16 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: ' az group create -n $(rgName) -l $(location)'
+- task: AzureResourceManagerTemplateDeployment@3
+  displayName: Create Azure Resource
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'SpSpokeSearch'
+    subscriptionId: $(subsId)
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: '$(rgName)'
+    location: '$(location)'
+    templateLocation: 'Linked artifact'
+    csmFile: '/bicep/main.json'
+    csmParametersFile: '/bicep/main.parameters.json'
+    deploymentMode: 'Incremental'
