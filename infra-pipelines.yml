@@ -36,16 +36,3 @@ steps:
 - script: |
     az group create -n $(rgName) -l $(location)
   displayName: 'Create Resource Group'
-- task: AzureResourceManagerTemplateDeployment@3
-  displayName: Create Azure Resources
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'SpSpokeSearch'
-    subscriptionId: $(subsId)
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: $(rgName)
-    location: '$(location)
-    templateLocation: 'Linked artifact'
-    csmFile: './bicep/main.bicep'
-    csmParametersFile: './bicep/main.parameters.json'
-    deploymentMode: 'Incremental'
