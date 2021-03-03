@@ -50,6 +50,6 @@ steps:
     resourceGroupName: '$(rgName)'
     location: '$(location)'
     templateLocation: 'Linked artifact'
-    csmFile: '/bicep/main.json'
-    csmParametersFile: '/bicep/main.parameters.json'
+    csmFile: './bicep/main.json'
+    csmParametersFile: './bicep/main.parameters.json'
     deploymentMode: 'Incremental'
