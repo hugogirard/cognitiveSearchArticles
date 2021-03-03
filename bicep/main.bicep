@@ -29,14 +29,14 @@ module vnet './modules/vnet/network.bicep' = {
   }
 }
 
-// module webapp './modules/webapp/webapp.bicep' = {
-//   name: 'webapp'
-//   params: {
-//     location: location
-//     frontEndsubnetId: vnet.outputs.webAppsubnetId
-//     suffix: suffix
-//   }
-// }
+module webapp './modules/webapp/webapp.bicep' = {
+  name: 'webapp'
+  params: {
+    location: location
+    frontEndsubnetId: vnet.outputs.webAppsubnetId
+    suffix: suffix
+  }
+}
 
 // module dns './modules/dns/privatedns.bicep' = {
 //   name: 'dns'
