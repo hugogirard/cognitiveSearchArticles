@@ -7,12 +7,12 @@ pool:
 variables:
   location: 'eastus'
   vnetAddressSpace: '10.0.0.0/16'
-  frontendSubnetAddressPrefix: '10.1.0.0/24'
-  searchSubnetAddressPrefix: '10.2.0.0/24'
-  searchApiSubnetAddressPrefix: '10.3.0.0/24'
-  indexerSubnetAddressPrefix: '10.4.0.0/24'
-  storageSubnetAddressPrefix: '10.5.0.0/24'
-  sqlSubnetAddressPrefix: '10.6.0.0/24'  
+  frontendSubnetAddressPrefix: '10.0.1.0/24'
+  searchSubnetAddressPrefix: '10.0.2.0/24'
+  searchApiSubnetAddressPrefix: '10.0.3.0/24'
+  indexerSubnetAddressPrefix: '10.0.4.0/24'
+  storageSubnetAddressPrefix: '10.0.5.0/24'
+  sqlSubnetAddressPrefix: '10.0.6.0/24'  
   rgName: 'spoke-search-rg'
   sp: 'SpSpokeSearch'
 
