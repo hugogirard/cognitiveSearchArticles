@@ -33,33 +33,23 @@ steps:
     useLegacyPattern: false
     enableTransforms: false
     enableTelemetry: true
-- task: CopyFiles@2
+- task: AzureCLI@2
+  displayName: 'Create Resource Group'
   inputs:
-    SourceFolder: './bicep'
-    Contents: 'main.parameters.json'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-- task: PublishBuildArtifacts@1
+    azureSubscription: 'SpSpokeSearch'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: ' az group create -n $(rgName) -l $(location)'
+- task: AzureResourceManagerTemplateDeployment@3
+  displayName: Create Azure Resource
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-# - task: AzureCLI@2
-#   displayName: 'Create Resource Group'
-#   inputs:
-#     azureSubscription: 'SpSpokeSearch'
-#     scriptType: 'bash'
-#     scriptLocation: 'inlineScript'
-#     inlineScript: ' az group create -n $(rgName) -l $(location)'
-# - task: AzureResourceManagerTemplateDeployment@3
-#   displayName: Create Azure Resource
-#   inputs:
-#     deploymentScope: 'Resource Group'
-#     azureResourceManagerConnection: 'SpSpokeSearch'
-#     subscriptionId: $(subsId)
-#     action: 'Create Or Update Resource Group'
-#     resourceGroupName: '$(rgName)'
-#     location: '$(location)'
-#     templateLocation: 'Linked artifact'
-#     csmFile: './bicep/main.json'
-#     csmParametersFile: './bicep/main.parameters.json'
-#     deploymentMode: 'Incremental'
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'SpSpokeSearch'
+    subscriptionId: $(subsId)
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: '$(rgName)'
+    location: '$(location)'
+    templateLocation: 'Linked artifact'
+    csmFile: './bicep/main.json'
+    csmParametersFile: './bicep/main.parameters.json'
+    deploymentMode: 'Incremental'
