@@ -4,7 +4,31 @@ trigger:
 pool:
   name: linuxSelfHosted
 
+variables:
+  location: 'eastus'
+  vnetAddressSpace: '10.0.0.0/16'
+  frontendSubnetAddressPrefix: '10.1.0.0/24'
+  searchSubnetAddressPrefix: '10.2.0.0/24'
+  searchApiSubnetAddressPrefix: '10.3.0.0/24'
+  indexerSubnetAddressPrefix: '10.4.0.0/24'
+  storageSubnetAddressPrefix: '10.5.0.0/24'
+  sqlSubnetAddressPrefix: '10.6.0.0/24'
+
+
 steps:
 - script: |
     bicep build ./bicep/main.bicep
   displayName: 'Build bicep files'
+- task: replacetokens@3
+  displayName: Fill Parameters JSON
+  inputs:
+    targetFiles: '**/main.parameter.json'
+    encoding: 'auto'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    tokenPrefix: '__'
+    tokenSuffix: '__'
+    useLegacyPattern: false
+    enableTransforms: false
+    enableTelemetry: true
