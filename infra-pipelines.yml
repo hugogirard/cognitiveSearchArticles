@@ -22,7 +22,7 @@ steps:
 - task: replacetokens@3
   displayName: Fill Parameters JSON
   inputs:
-    targetFiles: '**/main.parameter.json'
+    targetFiles: ./bicep/main.parameter.json'
     encoding: 'auto'
     writeBOM: true
     actionOnMissing: 'warn'
