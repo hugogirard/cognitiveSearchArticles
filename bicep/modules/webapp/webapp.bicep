@@ -12,7 +12,10 @@ resource appservicePlan 'Microsoft.Web/serverfarms@2019-08-01' = {
   name: appServiceName
   location: location
   sku: {
-    name: 'S1'
+    name: 'P1v2'
+    tier: 'PremiumV2'
+    size: 'P1v2'
+    family: 'Pv2'
     capacity: 1
   }
 }
