@@ -20,7 +20,15 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
       {
         name: 'frontEndSubnet'
         properties: {
-          addressPrefix: frontendSubnetAddressPrefix      
+          addressPrefix: frontendSubnetAddressPrefix
+          delegations: [
+            {
+              name: 'webDelegation'
+              properties: {
+                serviceName: 'Microsoft.Web/serverFarms'
+              }
+            }
+          ]          
         }
       }
       {

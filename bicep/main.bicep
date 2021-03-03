@@ -29,24 +29,24 @@ module vnet './modules/vnet/network.bicep' = {
   }
 }
 
-module webapp './modules/webapp/webapp.bicep' = {
-  name: 'webapp'
-  params: {
-    location: location
-    frontEndsubnetId: vnet.outputs.webAppsubnetId
-    suffix: suffix
-  }
-}
+// module webapp './modules/webapp/webapp.bicep' = {
+//   name: 'webapp'
+//   params: {
+//     location: location
+//     frontEndsubnetId: vnet.outputs.webAppsubnetId
+//     suffix: suffix
+//   }
+// }
 
-module dns './modules/dns/privatedns.bicep' = {
-  name: 'dns'
-  params: {
-    location: location
-    vnetId: vnet.outputs.vnetId
-    webApiId: webapp.outputs.apiId
-    webApiSubnetId: vnet.outputs.apiSubnetId
-  }
-}
+// module dns './modules/dns/privatedns.bicep' = {
+//   name: 'dns'
+//   params: {
+//     location: location
+//     vnetId: vnet.outputs.vnetId
+//     webApiId: webapp.outputs.apiId
+//     webApiSubnetId: vnet.outputs.apiSubnetId
+//   }
+// }
 
 module sql './modules/sql/sql.bicep' = {
   name: 'sql'
