@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "__location__" 
+        },
+        "vnetAddressSpace": {
+            "value": "__vnetAddressSpace__"
+        },
+        "frontendSubnetAddressPrefix": {
+            "value": "__frontendSubnetAddressPrefix__"
+        },
+        "searchSubnetAddressPrefix": {
+            "value": "__searchSubnetAddressPrefix"
+        },
+        "searchApiSubnetAddressPrefix": {
+            "value": "__searchApiSubnetAddressPrefix__"
+        },
+        "indexerSubnetAddressPrefix": {
+            "value": "__indexerSubnetAddressPrefix__"
+        },
+        "storageSubnetAddressPrefix": {
+            "value": "__storageSubnetAddressPrefix__"
+        },
+        "sqlSubnetAddressPrefix": {
+            "value": "__sqlSubnetAddressPrefix__"
+        },
+        "adminUsername": {
+            "value": "__adminUsername__"
+        },
+        "adminPassword": {
+            "value": "__adminPassword__"
+        }
+    }
+}
