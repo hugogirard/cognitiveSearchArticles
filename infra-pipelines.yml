@@ -13,7 +13,7 @@ variables:
   indexerSubnetAddressPrefix: '10.4.0.0/24'
   storageSubnetAddressPrefix: '10.5.0.0/24'
   sqlSubnetAddressPrefix: '10.6.0.0/24'
-
+  rgName: 'spoke-search-rg'
 
 steps:
 - script: |
@@ -32,3 +32,6 @@ steps:
     useLegacyPattern: false
     enableTransforms: false
     enableTelemetry: true
+- script: |
+    az group create $(rgName) -l $(location)
+  displayName: 'Create Resource Group'    
