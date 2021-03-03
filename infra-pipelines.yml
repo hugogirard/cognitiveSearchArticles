@@ -12,7 +12,7 @@ variables:
   searchApiSubnetAddressPrefix: '10.3.0.0/24'
   indexerSubnetAddressPrefix: '10.4.0.0/24'
   storageSubnetAddressPrefix: '10.5.0.0/24'
-  sqlSubnetAddressPrefix: '10.6.0.0/24'
+  sqlSubnetAddressPrefix: '10.6.0.0/24'  
   rgName: 'spoke-search-rg'
   sp: 'SpSpokeSearch'
 
@@ -33,23 +33,33 @@ steps:
     useLegacyPattern: false
     enableTransforms: false
     enableTelemetry: true
-- task: AzureCLI@2
-  displayName: 'Create Resource Group'
+- task: CopyFiles@2
   inputs:
-    azureSubscription: 'SpSpokeSearch'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: ' az group create -n $(rgName) -l $(location)'
-- task: AzureResourceManagerTemplateDeployment@3
-  displayName: Create Azure Resource
+    SourceFolder: './bicep'
+    Contents: 'main.parameters.json'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
   inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'SpSpokeSearch'
-    subscriptionId: $(subsId)
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: '$(rgName)'
-    location: '$(location)'
-    templateLocation: 'Linked artifact'
-    csmFile: './bicep/main.json'
-    csmParametersFile: './bicep/main.parameters.json'
-    deploymentMode: 'Incremental'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+# - task: AzureCLI@2
+#   displayName: 'Create Resource Group'
+#   inputs:
+#     azureSubscription: 'SpSpokeSearch'
+#     scriptType: 'bash'
+#     scriptLocation: 'inlineScript'
+#     inlineScript: ' az group create -n $(rgName) -l $(location)'
+# - task: AzureResourceManagerTemplateDeployment@3
+#   displayName: Create Azure Resource
+#   inputs:
+#     deploymentScope: 'Resource Group'
+#     azureResourceManagerConnection: 'SpSpokeSearch'
+#     subscriptionId: $(subsId)
+#     action: 'Create Or Update Resource Group'
+#     resourceGroupName: '$(rgName)'
+#     location: '$(location)'
+#     templateLocation: 'Linked artifact'
+#     csmFile: './bicep/main.json'
+#     csmParametersFile: './bicep/main.parameters.json'
+#     deploymentMode: 'Incremental'
