@@ -5,9 +5,6 @@ pool:
   name: linuxSelfHosted
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - script: |
-    bicep --help
-  displayName: 'Run a multi-line script'
+    bicep ./bicep/main.bicep
+  displayName: 'Build bicep files'
