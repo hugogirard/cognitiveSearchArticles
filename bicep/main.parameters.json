@@ -12,7 +12,7 @@
             "value": "__frontendSubnetAddressPrefix__"
         },
         "searchSubnetAddressPrefix": {
-            "value": "__searchSubnetAddressPrefix"
+            "value": "__searchSubnetAddressPrefix__"
         },
         "searchApiSubnetAddressPrefix": {
             "value": "__searchApiSubnetAddressPrefix__"
