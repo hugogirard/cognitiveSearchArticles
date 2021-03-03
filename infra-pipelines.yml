@@ -33,6 +33,10 @@ steps:
     useLegacyPattern: false
     enableTransforms: false
     enableTelemetry: true
-- script: |
-    az group create -n $(rgName) -l $(location)
+- task: AzureCLI@2
   displayName: 'Create Resource Group'
+  inputs:
+    azureSubscription: 'SpSpokeSearch'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: ' az group create -n $(rgName) -l $(location)'
