@@ -4,8 +4,8 @@ param webApiId string
 param webApiSubnetId string
 
 var privateDNSZoneName = 'privatelink.azurewebsites.net'
-var privateEndpointName = 'privateEndpoint${uniqueString(resourceGroup().name)}'
-var privateLinkConnectionName = 'privateLink${uniqueString(resourceGroup().name)}'
+var privateEndpointName = 'searchApiLink'
+var privateLinkConnectionName = 'searchApiLink${uniqueString(resourceGroup().name)}'
 
 resource privateEndpoint 'Microsoft.Network/privateEndpoints@2020-06-01' = {
   name: privateEndpointName
@@ -45,11 +45,11 @@ resource virtualNetworkLink 'Microsoft.Network/privateDnsZones/virtualNetworkLin
 }
 
 resource privateDNSZoneGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2020-06-01' = {
-  name: '${privateEndpoint.name}/dnsgroupname'
+  name: '${privateEndpoint.name}/default'
   properties: {
     privateDnsZoneConfigs: [
       {
-        name: 'config1'
+        name: 'privatelink-azurewebsites-net'
         properties: {
           privateDnsZoneId: privateDNSZone.id
         }
