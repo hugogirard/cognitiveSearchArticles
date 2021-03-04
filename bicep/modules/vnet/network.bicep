@@ -79,5 +79,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
 
 output webAppsubnetId string = vnet.properties.subnets[0].id
 output apiSubnetId string = vnet.properties.subnets[2].id
+output sqlSubnetId string = vnet.properties.subnets[5].id
 output indexerSubnetId string = vnet.properties.subnets[3].id
 output vnetId string = vnet.id

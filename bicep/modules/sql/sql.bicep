@@ -16,6 +16,7 @@ resource server 'Microsoft.Sql/servers@2019-06-01-preview'  = {
   properties: {
     administratorLogin: adminUsername
     administratorLoginPassword: adminPassword
+    publicNetworkAccess: 'Disabled'
   }  
 }
 
@@ -30,3 +31,5 @@ resource database 'Microsoft.Sql/servers/databases@2019-06-01-preview' = {
     tier: 'Basic'
   }
 }
+
+output sqlServerId string = server.id

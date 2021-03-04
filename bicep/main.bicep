@@ -45,6 +45,8 @@ module dns './modules/dns/privatedns.bicep' = {
     vnetId: vnet.outputs.vnetId
     webApiId: webapp.outputs.apiId
     webApiSubnetId: vnet.outputs.apiSubnetId
+    sqlSubnetId: vnet.outputs.sqlSubnetId
+    sqlId: sql.outputs.sqlServerId
   }
 }
 
