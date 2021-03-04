@@ -35,12 +35,14 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         name: 'searchSubnet'
         properties: {
           addressPrefix: searchSubnetAddressPrefix
+          privateEndpointNetworkPolicies: 'Disabled'
         }
       }
       {
         name: 'searchApiSubnet'
         properties: {
           addressPrefix: searchApiSubnetAddressPrefix
+          privateEndpointNetworkPolicies: 'Disabled'
         }
       }
       {
@@ -61,12 +63,14 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         name: 'storageSubnet'
         properties: {
           addressPrefix:  storageSubnetAddressPrefix
+          privateEndpointNetworkPolicies: 'Disabled'
         }
       }
       {
         name: 'sqlSubnet'
         properties: {
           addressPrefix: sqlSubnetAddressPrefix
+          privateEndpointNetworkPolicies: 'Disabled'
         }
       }
     ]
