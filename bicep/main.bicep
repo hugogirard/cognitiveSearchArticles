@@ -51,6 +51,9 @@ module dns './modules/dns/privatedns.bicep' = {
     webApiSubnetId: vnet.outputs.apiSubnetId
     sqlSubnetId: vnet.outputs.sqlSubnetId
     sqlId: sql.outputs.sqlServerId
+    searchSubnetId: vnet.outputs.searchSubnetId
+    searchId: search.outputs.searchApiId
+    searchDns: search.outputs.searchDNS
   }
 }
 
