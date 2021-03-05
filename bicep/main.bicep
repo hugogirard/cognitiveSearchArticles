@@ -38,6 +38,23 @@ module webapp './modules/webapp/webapp.bicep' = {
   }
 }
 
+module function './modules/function/function.bicep' = {
+  name: 'function'
+  params: {
+    appServiceId: webapp.outputs.appServiceId
+    location: location
+    suffix: suffix    
+  }
+}
+
+module str './modules/storage/storage.bicep' = {
+  name: 'str'
+  params: {
+    location: location
+    suffix: suffix
+  }
+}
+
 module dns './modules/dns/privatedns.bicep' = {
   name: 'dns'
   dependsOn: [

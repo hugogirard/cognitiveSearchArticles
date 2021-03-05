@@ -68,6 +68,7 @@ resource frontEndNetworkConfig 'Microsoft.Web/sites/networkConfig@2020-06-01' = 
   }
 }
 
+output appServiceId string = appservicePlan.id
 output apiName string = api.name
 output frontendName string = web.name
 output apiId string = api.id
