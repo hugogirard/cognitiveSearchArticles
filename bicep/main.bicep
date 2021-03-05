@@ -40,6 +40,10 @@ module webapp './modules/webapp/webapp.bicep' = {
 
 module dns './modules/dns/privatedns.bicep' = {
   name: 'dns'
+  dependsOn: [
+    webapp
+    sql
+  ]
   params: {
     location: location
     vnetId: vnet.outputs.vnetId
