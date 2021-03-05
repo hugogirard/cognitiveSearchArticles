@@ -7,4 +7,10 @@ resource search 'Microsoft.Search/searchServices@2020-08-01' = {
   sku: {
     name: 'basic'
   }
+  properties: {
+    publicNetworkAccess: 'disabled'
+  }
 }
+
+output searchApiId string = search.id
+output searchDNS string = '${search.name}.search.windows.net'
