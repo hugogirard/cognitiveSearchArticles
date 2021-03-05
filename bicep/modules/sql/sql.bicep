@@ -15,8 +15,7 @@ resource server 'Microsoft.Sql/servers@2019-06-01-preview'  = {
   location: location
   properties: {
     administratorLogin: adminUsername
-    administratorLoginPassword: adminPassword
-    publicNetworkAccess: 'Disabled'
+    administratorLoginPassword: adminPassword    
   }  
 }
 
