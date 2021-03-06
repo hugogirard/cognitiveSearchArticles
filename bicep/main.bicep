@@ -6,6 +6,8 @@ param searchApiSubnetAddressPrefix string
 param indexerSubnetAddressPrefix string
 param storageSubnetAddressPrefix string
 param sqlSubnetAddressPrefix string
+param privateEndpoint bool = false
+
 param adminUsername string {
   secure: true
 }
@@ -55,11 +57,21 @@ module str './modules/storage/storage.bicep' = {
   }
 }
 
+module search './modules/search/search.bicep' = {
+  name: 'search'
+  params: {
+    suffix: suffix
+    location: location
+  }
+}
+
+
 module dns './modules/dns/privatedns.bicep' = {
   name: 'dns'
   dependsOn: [
     webapp
     sql
+    search
   ]
   params: {
     location: location
@@ -83,14 +95,5 @@ module sql './modules/sql/sql.bicep' = {
     adminUsername: adminUsername
   }
 }
-
-module search './modules/search/search.bicep' = {
-  name: 'search'
-  params: {
-    suffix: suffix
-    location: location
-  }
-}
-
 
 
