@@ -1,5 +1,8 @@
 param suffix string
 param location string
+param lockDownEnv bool
+
+var publicNetworkAccess = lockDownEnv ? 'disabled' : 'enabled'
 
 resource search 'Microsoft.Search/searchServices@2020-08-01' = {
   name: 'searchdemo-${suffix}'
@@ -8,7 +11,7 @@ resource search 'Microsoft.Search/searchServices@2020-08-01' = {
     name: 'basic'
   }
   properties: {
-    publicNetworkAccess: 'disabled'
+    publicNetworkAccess: publicNetworkAccess
   }
 }
 

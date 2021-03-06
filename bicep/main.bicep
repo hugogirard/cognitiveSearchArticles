@@ -6,7 +6,7 @@ param searchApiSubnetAddressPrefix string
 param indexerSubnetAddressPrefix string
 param storageSubnetAddressPrefix string
 param sqlSubnetAddressPrefix string
-param privateEndpoint bool = false
+param lockDownEnv bool = false
 
 param adminUsername string {
   secure: true
@@ -17,7 +17,7 @@ param adminPassword string {
 
 var suffix = uniqueString(resourceGroup().id)
 
-module vnet './modules/vnet/network.bicep' = {
+module vnet './modules/vnet/network.bicep' = if (lockDownEnv) {
   name: 'vnet'
   params: {
     location: location
@@ -62,11 +62,12 @@ module search './modules/search/search.bicep' = {
   params: {
     suffix: suffix
     location: location
+    lockDownEnv: lockDownEnv
   }
 }
 
 
-module dns './modules/dns/privatedns.bicep' = {
+module dns './modules/dns/privatedns.bicep' = if (lockDownEnv) {
   name: 'dns'
   dependsOn: [
     webapp
