@@ -1,6 +1,7 @@
 param location string
 param suffix string
 param frontEndsubnetId string
+param lockDownEnv bool
 
 var appServiceName = concat('appsrvsearch',suffix)
 
@@ -61,7 +62,7 @@ resource web 'Microsoft.Web/sites@2019-08-01' = {
   }
 }
 
-resource frontEndNetworkConfig 'Microsoft.Web/sites/networkConfig@2020-06-01' = {
+resource frontEndNetworkConfig 'Microsoft.Web/sites/networkConfig@2020-06-01' = if (lockDownEnv) {
   name: '${web.name}/VirtualNetwork'
   properties: {
     subnetResourceId: frontEndsubnetId

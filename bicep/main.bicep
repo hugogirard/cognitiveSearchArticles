@@ -37,6 +37,7 @@ module webapp './modules/webapp/webapp.bicep' = {
     location: location
     frontEndsubnetId: vnet.outputs.webAppsubnetId
     suffix: suffix
+    lockDownEnv: lockDownEnv
   }
 }
 
