@@ -5,7 +5,8 @@ param lockDownEnv bool
 
 var appServiceName = concat('appsrvsearch',suffix)
 
-var webapiName = concat('searchapi-',suffix)
+var webapiSearchName = concat('searchapi-',suffix)
+var articleApiSearchName = concat('articleapi-',suffix)
 var webAppWeb = concat('knowledgeweb-',suffix)
 var websiteDNSName = '.azurewebsites.net'
 
@@ -21,8 +22,8 @@ resource appservicePlan 'Microsoft.Web/serverfarms@2019-08-01' = {
   }
 }
 
-resource api 'Microsoft.Web/sites@2020-06-01' = {
-  name: webapiName
+resource apiSearch 'Microsoft.Web/sites@2020-06-01' = {
+  name: webapiSearchName
   location: location
   kind: 'app'
   dependsOn: [
@@ -32,12 +33,12 @@ resource api 'Microsoft.Web/sites@2020-06-01' = {
     serverFarmId: appservicePlan.id
     hostNameSslStates: [
       {
-        name: '${webapiName}${websiteDNSName}'
+        name: '${webapiSearchName}${websiteDNSName}'
         sslState: 'Disabled'
         hostType: 'Standard'
       }
       {
-        name: '${webapiName}.scm${websiteDNSName}'
+        name: '${webapiSearchName}.scm${websiteDNSName}'
         sslState: 'Disabled'
         hostType: 'Repository'        
       }
@@ -45,13 +46,46 @@ resource api 'Microsoft.Web/sites@2020-06-01' = {
   }
 }
 
-resource hostnameBinding 'Microsoft.Web/sites/hostNameBindings@2020-06-01' = {
-  name: '${api.name}/${api.name}${websiteDNSName}'
+resource apiArticle 'Microsoft.Web/sites@2020-06-01' = {
+  name: articleApiSearchName
+  location: location
+  kind: 'app'
+  dependsOn: [
+    appservicePlan
+  ]
   properties: {
-    siteName: api.name
+    serverFarmId: appservicePlan.id
+    hostNameSslStates: [
+      {
+        name: '${articleApiSearchName}${websiteDNSName}'
+        sslState: 'Disabled'
+        hostType: 'Standard'
+      }
+      {
+        name: '${articleApiSearchName}.scm${websiteDNSName}'
+        sslState: 'Disabled'
+        hostType: 'Repository'        
+      }
+    ]
+  }
+}
+
+resource hostnameBindingSearchApi 'Microsoft.Web/sites/hostNameBindings@2020-06-01' = {
+  name: '${apiSearch.name}/${apiSearch.name}${websiteDNSName}'
+  properties: {
+    siteName: apiSearch.name
     hostNameType: 'Verified'
   }
 }
+
+resource hostnameBindingArticleApi 'Microsoft.Web/sites/hostNameBindings@2020-06-01' = {
+  name: '${apiArticle.name}/${apiArticle.name}${websiteDNSName}'
+  properties: {
+    siteName: apiArticle.name
+    hostNameType: 'Verified'
+  }
+}
+
 
 
 resource web 'Microsoft.Web/sites@2019-08-01' = {
@@ -70,6 +104,6 @@ resource frontEndNetworkConfig 'Microsoft.Web/sites/networkConfig@2020-06-01' = 
 }
 
 output appServiceId string = appservicePlan.id
-output apiName string = api.name
+output apiName string = apiSearch.name
 output frontendName string = web.name
-output apiId string = api.id
+output apiId string = apiSearch.id
