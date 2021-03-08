@@ -31,13 +31,13 @@ module vnet './modules/vnet/network.bicep' = if (lockDownEnv) {
   }
 }
 
-module eventGrid './modules/eventGrid/eventGrid.bicep' = {
-  name: 'eventGrid'
-  params: {
-    suffix: suffix
-    location: location    
-  }
-}
+// module eventGrid './modules/eventGrid/eventGrid.bicep' = {
+//   name: 'eventGrid'
+//   params: {
+//     suffix: suffix
+//     location: location    
+//   }
+// }
 
 module webapp './modules/webapp/webapp.bicep' = {
   name: 'webapp'
@@ -46,6 +46,7 @@ module webapp './modules/webapp/webapp.bicep' = {
     frontEndsubnetId: vnet.outputs.webAppsubnetId
     suffix: suffix
     lockDownEnv: lockDownEnv
+    sqlConnectionStrig: sql.outputs.sqlCnxString
   }
 }
 

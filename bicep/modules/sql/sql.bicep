@@ -32,3 +32,4 @@ resource database 'Microsoft.Sql/servers/databases@2019-06-01-preview' = {
 }
 
 output sqlServerId string = server.id
+output sqlCnxString string = 'Server=tcp:${reference(server.name).fullyQualifiedDomainName},1433;Initial Catalog=${dbname};Persist Security Info=False;User ID=${adminUsername};Password=${adminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'

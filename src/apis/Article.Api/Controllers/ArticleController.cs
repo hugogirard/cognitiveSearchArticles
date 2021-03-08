@@ -59,7 +59,7 @@ namespace Article.Api.Controllers
             
             await _context.SaveChangesAsync();
 
-            await _eventPublisher.SendEventAsync(newArticle.Id, newArticle.Title);
+            //await _eventPublisher.SendEventAsync(newArticle.Id, newArticle.Title);
 
             return Ok(newArticle);
         }

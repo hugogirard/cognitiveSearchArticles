@@ -2,6 +2,7 @@ param location string
 param suffix string
 param frontEndsubnetId string
 param lockDownEnv bool
+param sqlConnectionStrig string
 
 var appServiceName = concat('appsrvsearch',suffix)
 
@@ -50,10 +51,21 @@ resource apiArticle 'Microsoft.Web/sites@2020-06-01' = {
   name: articleApiSearchName
   location: location
   kind: 'app'
+  tags: {
+    'appname': 'apiArticle'
+  }
   dependsOn: [
     appservicePlan
   ]
   properties: {
+    siteConfig: {
+      connectionStrings: [
+        {
+          name: 'ArticleDb'
+          connectionString: sqlConnectionStrig
+        }
+      ]
+    }
     serverFarmId: appservicePlan.id
     hostNameSslStates: [
       {
