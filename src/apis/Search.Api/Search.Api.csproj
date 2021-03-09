@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>76a5be33-9b39-41d2-b742-db2333bfd900</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Search.Documents" Version="11.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
+  </ItemGroup>
+
+</Project>

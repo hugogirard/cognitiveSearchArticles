@@ -1,0 +1,59 @@
+﻿@page "/"
+@inject ISearchService _searchService
+
+<div class="row">
+    <div class="col-md">
+        <EditForm Model="VM" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="search" class="form-label">Search</label>
+                <input type="text" class="form-control" id="search" @bind-value="VM.SearchQuery" placeholder="Enter search query">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Search</button>
+
+        </EditForm>
+    </div>
+</div>
+
+<div class="row">
+    @if (Articles.Any())
+    {
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>                    
+                    <th scope="col">Title</th>
+                    <th scope="col">Short Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var article in Articles) 
+                { 
+                    <tr>
+                        <td>@article.Title</td>
+                        <td></td>
+                        <td>
+                            <buton class="btn btn-primary">View</buton>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>     
+    }
+</div>
+
+
+@code {
+
+    public SearchViewModel VM { get; set; } = new SearchViewModel();
+
+    private IEnumerable<Models.Article> Articles = new List<Models.Article>();
+
+    private async Task HandleValidSubmit()
+    {
+        Articles = await _searchService.SearchAsync(VM.SearchQuery);
+    }
+}
