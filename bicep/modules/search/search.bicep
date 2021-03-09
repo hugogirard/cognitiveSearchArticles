@@ -17,4 +17,4 @@ resource search 'Microsoft.Search/searchServices@2020-08-01' = {
 
 output searchApiId string = search.id
 output searchDNS string = 'https://${search.name}.search.windows.net'
-output searchApiKey string = listKeys(search.id,'2019-06-01').keys[0].value
+output searchApiKey string = listKeys(search.id,'2020-08-01').keys[0].value
