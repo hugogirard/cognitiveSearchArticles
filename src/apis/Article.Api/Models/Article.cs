@@ -15,10 +15,14 @@ namespace Article.Api.Models
         [Required]
         public string Title { get; set; }
 
+        [MaxLength(200)]
+        [Required]
+        public string ShortDescription { get; set; }
+
         [MaxLength(4000)]
         [Required]
         public string Text { get; set; }
-
+        
         [Required]
         public DateTime Created { get; set; }
 

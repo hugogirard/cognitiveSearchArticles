@@ -47,6 +47,8 @@ module webapp './modules/webapp/webapp.bicep' = {
     suffix: suffix
     lockDownEnv: lockDownEnv
     sqlConnectionStrig: sql.outputs.sqlCnxString
+    searchApiKey: search.outputs.searchApiId
+    searchEndpoint: search.outputs.searchDNS
   }
 }
 
