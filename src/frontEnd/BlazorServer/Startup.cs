@@ -1,5 +1,6 @@
 using BlazorServer.Data;
 using BlazorServer.Pages.Articles.Services;
+using BlazorServer.Pages.Search.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,11 @@ namespace BlazorServer
             services.AddHttpClient<IArticleService, ArticleService>(c => 
             {
                 c.BaseAddress = new Uri(Configuration["Apis:Article"]);
+            });
+
+            services.AddHttpClient<ISearchService, SearchService>(c => 
+            {
+                c.BaseAddress = new Uri(Configuration["Apis:SearchApi"]);
             });
 
             services.AddRazorPages();
