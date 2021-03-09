@@ -9,7 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apis", "apis", "{0EEBB89F-6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServer", "frontEnd\BlazorServer\BlazorServer.csproj", "{CCE6CD94-E457-4A68-85C0-C4D41B9E9B98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Article.Api", "apis\Article.Api\Article.Api.csproj", "{37971B67-83F3-49EA-985B-1DBC78D38A44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Article.Api", "apis\Article.Api\Article.Api.csproj", "{37971B67-83F3-49EA-985B-1DBC78D38A44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "function", "function", "{04BE06B6-CCD8-4376-AAD0-F1E8352F5CDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArticleFunction", "function\ArticleFunction\ArticleFunction.csproj", "{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,18 @@ Global
 		{37971B67-83F3-49EA-985B-1DBC78D38A44}.Release|x64.Build.0 = Release|Any CPU
 		{37971B67-83F3-49EA-985B-1DBC78D38A44}.Release|x86.ActiveCfg = Release|Any CPU
 		{37971B67-83F3-49EA-985B-1DBC78D38A44}.Release|x86.Build.0 = Release|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Debug|x64.Build.0 = Debug|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Release|x64.ActiveCfg = Release|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Release|x64.Build.0 = Release|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +68,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CCE6CD94-E457-4A68-85C0-C4D41B9E9B98} = {2879E00B-8590-45B7-92A1-85130CC5AF76}
 		{37971B67-83F3-49EA-985B-1DBC78D38A44} = {0EEBB89F-68FB-400D-9D6C-D8638A872C0D}
+		{AE7AE0CC-E656-434B-8964-373D8E2FC9C6} = {04BE06B6-CCD8-4376-AAD0-F1E8352F5CDF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D120D40-5388-4705-B8D7-72C05FED152D}

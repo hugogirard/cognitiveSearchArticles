@@ -1,4 +1,5 @@
 using BlazorServer.Data;
+using BlazorServer.Pages.Articles.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,11 @@ namespace BlazorServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<IArticleService, ArticleService>(c => 
+            {
+                c.BaseAddress = new Uri(Configuration["Apis:Article"]);
+            });
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
