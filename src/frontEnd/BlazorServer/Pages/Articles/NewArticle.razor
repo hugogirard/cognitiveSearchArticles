@@ -1,9 +1,14 @@
 ﻿@page "/newArticle" 
 @inject IArticleService _articleService
+@inject IStorageService _storageService
+@inject NavigationManager NavigationManager
+@using System.IO
 
 <div class="row">
     <h1>New Article</h1>
 </div>
+
+<Loading IsLoading="Loading" />
 
 <div class="row">
     <div class="col-md">
@@ -12,8 +17,13 @@
             <ValidationSummary />
 
             <div class="form-group">
-                <label for="title" class="form-label">Title</label>                
+                <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" @bind-value="VM.Title">
+            </div>
+
+            <div class="form-group">
+                <label for="shortDescription" class="form-label">Short Description</label>
+                <input type="text" class="form-control" id="shortDescription" @bind-value="VM.ShortDescription">
             </div>
 
             <div class="form-group">
@@ -46,6 +56,11 @@
                 </BlazoredTextEditor>
             </div>
 
+            <div class="form-group">
+                <label for="file">Attachment</label>
+                <InputFile OnChange="@LoadFile" />
+            </div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
         </EditForm>
     </div>
@@ -56,18 +71,87 @@
 
     public NewArticleViewModel VM { get; set; } = new NewArticleViewModel();
 
+    private int maxAllowedFiles = 1;
+    private Stream _file;
+
+    public bool Loading { get; set; }
+
     BlazoredTextEditor QuillHtml;
+
+
+    private void LoadFile(InputFileChangeEventArgs e)
+    {
+        if (e.File == null)
+            return;
+
+        Loading = true;
+
+        try
+        {
+            _file = e.File.OpenReadStream(e.File.Size);
+            VM.Filename = e.File.Name;
+        }
+        catch (Exception ex)
+        {
+            if (_file != null)
+                _file.Dispose();
+        }
+
+        Loading = false;
+    }
 
     private async Task HandleValidSubmit()
     {
+
         VM.Content = await QuillHtml.GetHTML();
 
-        if (string.IsNullOrEmpty(VM.Content)) 
+        if (string.IsNullOrEmpty(VM.Content))
         {
             return;
         }
 
-        await _articleService.CreateArticleAsync(VM);
+        Loading = true;
 
+        try
+        {
+
+            var article = await _articleService.CreateArticleAsync(VM);
+
+            if (_file != null)
+            {
+                string[] filesParth = VM.Filename.Split('.');
+                string fileExtension = string.Empty;
+                string filename = string.Empty;
+
+                if (filesParth.Length > 1)
+                {
+                    fileExtension = filesParth[filesParth.Length - 1];
+                }
+
+                if (!string.IsNullOrEmpty(fileExtension))
+                {
+                    filename = $"{article.Id}.{fileExtension}";
+                }
+                else
+                {
+                    filename = article.Id.ToString();
+                }
+
+                VM.FileUri = await _storageService.UploadAsync(filename, _file);
+
+                await _file.DisposeAsync();
+
+                _file = null;
+
+                NavigationManager.NavigateTo("/");
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        Loading = false;
     }
 }

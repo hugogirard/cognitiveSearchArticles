@@ -18,20 +18,25 @@ namespace BlazorServer.Pages.Articles.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> CreateArticleAsync(NewArticleViewModel vm)
+        public async Task<Article> CreateArticleAsync(NewArticleViewModel vm)
         {
             var article = new Article
-            {
+            { 
                 Title = vm.Title,
+                ShortDescription = vm.ShortDescription,
                 Text = vm.Content
             };
 
-            var serializedObject = JsonSerializer.Serialize(article);
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            var serializedObject = JsonSerializer.Serialize(article,options);
             var jsoncontent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
 
             var response = await this._httpClient.PostAsync(string.Empty, jsoncontent);
 
-            return response.IsSuccessStatusCode;
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<Article>(jsonResponse);
         }
     }
 }

@@ -8,10 +8,20 @@ namespace BlazorServer.Pages.Articles
 {
     public class NewArticleViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         [MaxLength(200)]
         public string Title { get; set; }
-            
+
+        [Required]
+        [MaxLength(200)]
+        public string ShortDescription { get; set; }
+
         public string Content { get; set; }
+
+        public string FileUri { get; set; }
+
+        public string Filename { get; set; }
     }
 }

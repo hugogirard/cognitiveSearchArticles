@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BlazorServer
@@ -37,6 +38,8 @@ namespace BlazorServer
             {
                 c.BaseAddress = new Uri(Configuration["Apis:SearchApi"]);
             });
+
+            services.AddSingleton<IStorageService, AzureStorageService>();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();

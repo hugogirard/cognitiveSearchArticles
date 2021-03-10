@@ -52,6 +52,7 @@ namespace Article.Api.Controllers
             var newArticle = new Models.Article()
             {
                 Title = article.Title,
+                ShortDescription = article.ShortDescription,
                 Text = article.Text
             };
 
