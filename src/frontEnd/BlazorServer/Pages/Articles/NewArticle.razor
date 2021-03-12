@@ -10,66 +10,90 @@
 
 <Loading IsLoading="Loading" />
 
-<div class="row">
-    <div class="col-md">
-        <EditForm Model="VM" OnValidSubmit="@HandleValidSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+@if (Categories != null) 
+{ 
+    <div class="row">
+        <div class="col-md">
+            <EditForm Model="VM" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-            <div class="form-group">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" @bind-value="VM.Title">
-            </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" @bind-value="VM.Title">
+                </div>
 
-            <div class="form-group">
-                <label for="shortDescription" class="form-label">Short Description</label>
-                <input type="text" class="form-control" id="shortDescription" @bind-value="VM.ShortDescription">
-            </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Category</label>
+                    <InputSelect id="categoryId" @bind-Value="VM.CategoryId" @attributes="SelectAttributes">
+                        <option value="Select" selected disabled="disabled">(Choose Category)</option>
+                        @foreach (var category in Categories)
+                            {
+                            <option value="@category.Id">@category.Name</option>
+                            }
+                    </InputSelect>
+                </div>
 
-            <div class="form-group">
-                <BlazoredTextEditor @ref="@QuillHtml">
-                    <ToolbarContent>
-                        <select class="ql-header">
-                            <option selected=""></option>
-                            <option value="1"></option>
-                            <option value="2"></option>
-                            <option value="3"></option>
-                            <option value="4"></option>
-                            <option value="5"></option>
-                        </select>
-                        <span class="ql-formats">
-                            <button class="ql-bold"></button>
-                            <button class="ql-italic"></button>
-                            <button class="ql-underline"></button>
-                            <button class="ql-strike"></button>
-                        </span>
-                        <span class="ql-formats">
-                            <select class="ql-color"></select>
-                            <select class="ql-background"></select>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-list" value="ordered"></button>
-                            <button class="ql-list" value="bullet"></button>
-                        </span>
-                    </ToolbarContent>
-                    <EditorContent></EditorContent>
-                </BlazoredTextEditor>
-            </div>
+                <div class="mb-3">
+                    <label for="shortDescription" class="form-label">Short Description</label>
+                    <input type="text" class="form-control" id="shortDescription" @bind-value="VM.ShortDescription">
+                </div>
 
-            <div class="form-group">
-                <label for="file">Attachment</label>
-                <InputFile OnChange="@LoadFile" />
-            </div>
+                <div class="mb-3">
+                    <BlazoredTextEditor @ref="@QuillHtml">
+                        <ToolbarContent>
+                            <select class="ql-header">
+                                <option selected=""></option>
+                                <option value="1"></option>
+                                <option value="2"></option>
+                                <option value="3"></option>
+                                <option value="4"></option>
+                                <option value="5"></option>
+                            </select>
+                            <span class="ql-formats">
+                                <button class="ql-bold"></button>
+                                <button class="ql-italic"></button>
+                                <button class="ql-underline"></button>
+                                <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <select class="ql-color"></select>
+                                <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                            </span>
+                        </ToolbarContent>
+                        <EditorContent></EditorContent>
+                    </BlazoredTextEditor>
+                </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </EditForm>
+                <div class="form-group">
+                    <label for="file">Attachment</label>
+                    <InputFile OnChange="@LoadFile" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </EditForm>
+        </div>
     </div>
-</div>
+}
+
+
 
 
 @code {
 
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> SelectAttributes { get; set; } = new Dictionary<string, object>
+    {
+        { "class","form-select" }
+    };
+
     public NewArticleViewModel VM { get; set; } = new NewArticleViewModel();
+
+    public IEnumerable<CategoryList> Categories { get; set; }
 
     private int maxAllowedFiles = 1;
     private Stream _file;
@@ -78,6 +102,10 @@
 
     BlazoredTextEditor QuillHtml;
 
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = await _articleService.GetCategoriesAsync();
+    }
 
     private void LoadFile(InputFileChangeEventArgs e)
     {
@@ -122,29 +150,31 @@
                 string[] filesParth = VM.Filename.Split('.');
                 string fileExtension = string.Empty;
                 string filename = string.Empty;
+                string uniqueId = Guid.NewGuid().ToString();
 
                 if (filesParth.Length > 1)
                 {
                     fileExtension = filesParth[filesParth.Length - 1];
                 }
 
+
                 if (!string.IsNullOrEmpty(fileExtension))
                 {
-                    filename = $"{article.Id}.{fileExtension}";
+                    filename = $"{uniqueId}.{fileExtension}";
                 }
                 else
                 {
-                    filename = article.Id.ToString();
+                    filename = uniqueId;
                 }
 
-                VM.FileUri = await _storageService.UploadAsync(filename, _file);
+                VM.FileUri = await _storageService.UploadAsync(filename,article.Id, _file);
 
                 await _file.DisposeAsync();
 
                 _file = null;
-
-                NavigationManager.NavigateTo("/");
             }
+
+            NavigationManager.NavigateTo("/");
 
         }
         catch (Exception ex)

@@ -5,6 +5,6 @@ namespace BlazorServer.Pages.Articles.Services
 {
     public interface IStorageService
     {
-        Task<string> UploadAsync(string id, Stream file);
+        Task<string> UploadAsync(string filename, int id, Stream file);
     }
 }

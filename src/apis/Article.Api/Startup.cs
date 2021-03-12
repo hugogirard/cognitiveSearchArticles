@@ -59,7 +59,7 @@ namespace Article.Api
                 c.RoutePrefix = string.Empty;
             });
 
-            context.Database.EnsureCreated();
+            SeedDatabase(context);
 
             app.UseRouting();
 
@@ -69,6 +69,24 @@ namespace Article.Api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void SeedDatabase(ArticleContext context) 
+        {
+            context.Database.EnsureCreated();
+
+            if (!context.Categories.Any()) 
+            {
+                var categories = new List<Category>
+                {
+                    new Category { Id=1, Name="Science" },
+                    new Category { Id=2, Name="Sport" },
+                    new Category { Id=3, Name="Travel" },
+                };
+
+                context.Categories.AddRange(categories);
+                context.SaveChanges();
+            }
         }
     }
 }

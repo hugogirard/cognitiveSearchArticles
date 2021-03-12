@@ -11,6 +11,7 @@ using Azure.Search.Documents.Indexes;
 using Azure;
 using Azure.Search.Documents.Indexes.Models;
 using System.Collections.Generic;
+using ArticleFunction.Models;
 
 namespace ArticleFunction
 {
@@ -52,10 +53,12 @@ namespace ArticleFunction
             ILogger log)
         {
             try
-            {
-                
-                
+             {
+                await CreateIndex(log);
+
                 await RunSqlDbIndexer(log);
+
+                await RunStorageIndexer(log);
             }
             catch(Exception ex)
             {
@@ -63,6 +66,81 @@ namespace ArticleFunction
             }
 
             return new OkObjectResult("YEAH");
+        }
+
+        private async Task CreateIndex(ILogger log)
+        {
+            try
+            {
+                await this.IndexClient.GetIndexAsync("article");
+                await this.IndexClient.DeleteIndexAsync("article");
+            }
+            catch (RequestFailedException ex) when (ex.Status == 404)
+            {
+
+            }
+
+            FieldBuilder bulder = new FieldBuilder();
+            var definition = new SearchIndex("article", bulder.Build(typeof(Article)));
+
+            await this.IndexClient.CreateIndexAsync(definition);
+        }
+
+        private async Task RunStorageIndexer(ILogger log)
+        {
+            var blobDataSource = new SearchIndexerDataSourceConnection(name: "storagedatasource",
+                                                                       type: SearchIndexerDataSourceType.AzureBlob,
+                                                                       connectionString: Environment.GetEnvironmentVariable("BlobStorageConnectionString"),
+                                                                       container: new SearchIndexerDataContainer("files"));
+
+            await this.SearchIndexerClient.CreateOrUpdateDataSourceConnectionAsync(blobDataSource);
+
+            SearchIndexer storageIndexer = new SearchIndexer(name: "storate-indexer",
+                                                            dataSourceName: blobDataSource.Name,
+                                                            targetIndexName: "article")
+            {
+                Schedule = new IndexingSchedule(TimeSpan.FromMinutes(60))
+            };
+
+            storageIndexer.SkillsetName = "azureblob-skillset";
+            storageIndexer.FieldMappings.Add(new FieldMapping("articleId") { TargetFieldName = "Id" });
+            storageIndexer.Parameters = new IndexingParameters
+            {
+                IndexingParametersConfiguration = new IndexingParametersConfiguration
+                {
+                    DataToExtract = BlobIndexerDataToExtract.ContentAndMetadata,
+                    ParsingMode = BlobIndexerParsingMode.Default
+                }
+            };
+                
+                
+            //    .IndexingParametersConfiguration = new IndexingParametersConfiguration
+            //{
+            //    DataToExtract = BlobIndexerDataToExtract.ContentAndMetadata                
+            //};
+            storageIndexer.OutputFieldMappings.Add(new FieldMapping("/document/content/keyphrases") { TargetFieldName= "Keyphrases" });
+            try
+            {
+                await this.SearchIndexerClient.GetIndexerAsync(storageIndexer.Name);
+
+                // UNCOMMENT THIS LINE TO RESET THE INDEXER
+                await this.SearchIndexerClient.ResetIndexerAsync(storageIndexer.Name);
+            }
+            catch (RequestFailedException ex) when (ex.Status == 404)
+            {
+                // Is possible you get a 404 when the index doesn't exists
+            }
+
+            await this.SearchIndexerClient.CreateOrUpdateIndexerAsync(storageIndexer);
+
+            try
+            {
+                await this.SearchIndexerClient.RunIndexerAsync(storageIndexer.Name);
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex.Message, ex);
+            }
         }
 
         private async Task RunSqlDbIndexer(ILogger log) 
@@ -83,11 +161,6 @@ namespace ArticleFunction
 
             try
             {
-                sqlIndexer.FieldMappings.Add(new FieldMapping("Id")
-                {
-                    TargetFieldName = "id"
-                });
-
                 await this.SearchIndexerClient.GetIndexerAsync(sqlIndexer.Name);
 
                 // UNCOMMENT THIS LINE TO RESET THE INDEXER

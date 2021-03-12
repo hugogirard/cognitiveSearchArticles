@@ -11,6 +11,9 @@ namespace BlazorServer.Pages.Articles
         public string Id { get; set; }
 
         [Required]
+        public string CategoryId { get; set; }
+
+        [Required]
         [MaxLength(200)]
         public string Title { get; set; }
 

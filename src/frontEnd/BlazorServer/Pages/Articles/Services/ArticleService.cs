@@ -6,16 +6,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text;
+using BlazorServer.Infrastructure;
 
 namespace BlazorServer.Pages.Articles.Services
 {
-    public class ArticleService : IArticleService
+    public class ArticleService : BaseService, IArticleService
     {
-        private readonly HttpClient _httpClient;
-
-        public ArticleService(HttpClient httpClient)
+        public ArticleService(HttpClient httpClient) : base(httpClient)
         {
-            _httpClient = httpClient;
         }
 
         public async Task<Article> CreateArticleAsync(NewArticleViewModel vm)
@@ -27,16 +25,12 @@ namespace BlazorServer.Pages.Articles.Services
                 Text = vm.Content
             };
 
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            var serializedObject = JsonSerializer.Serialize(article,options);
-            var jsoncontent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+            return await base.PostAsync<Article,Article>(article,"article");
+        }
 
-            var response = await this._httpClient.PostAsync(string.Empty, jsoncontent);
-
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<Article>(jsonResponse);
+        public async Task<IEnumerable<CategoryList>> GetCategoriesAsync()
+        {
+            return await base.GetAsync<IEnumerable<CategoryList>>("category");
         }
     }
 }

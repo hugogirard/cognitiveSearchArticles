@@ -33,7 +33,6 @@ namespace BlazorServer
             {
                 c.BaseAddress = new Uri(Configuration["Apis:Article"]);
             });
-
             services.AddHttpClient<ISearchService, SearchService>(c => 
             {
                 c.BaseAddress = new Uri(Configuration["Apis:SearchApi"]);

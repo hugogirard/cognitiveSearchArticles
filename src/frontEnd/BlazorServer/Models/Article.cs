@@ -8,16 +8,22 @@ namespace BlazorServer.Models
 {
     public class Article
     {
+        [JsonProperty("id")]
         public int Id { get; set; }
 
+        [JsonProperty("title")]
         public string Title { get; set; }
 
+        [JsonProperty("shortDescription")]
         public string ShortDescription { get; set; }
 
+        [JsonProperty("text")]
         public string Text { get; set; }
 
+        [JsonProperty("created")]
         public DateTimeOffset Created { get; set; }
 
+        [JsonProperty("attachementUri")]
         public string AttachmentUri { get; set; }
     }
 }

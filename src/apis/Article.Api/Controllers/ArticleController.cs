@@ -1,5 +1,7 @@
-﻿using Article.Api.Models;
+﻿using Article.Api.Binder;
+using Article.Api.Models;
 using Article.Api.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -47,7 +49,7 @@ namespace Article.Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(Models.Article), 202)]
-        public async Task<IActionResult> Create([FromBody] Models.Article article) 
+        public async Task<IActionResult> Create([FromBody] Models.Article article)
         {
             var newArticle = new Models.Article()
             {
@@ -57,12 +59,11 @@ namespace Article.Api.Controllers
             };
 
             await _context.Articles.AddAsync(newArticle);
-            
-            await _context.SaveChangesAsync();
 
-            //await _eventPublisher.SendEventAsync(newArticle.Id, newArticle.Title);
+            await _context.SaveChangesAsync();
 
             return Ok(newArticle);
         }
+
     }
 }

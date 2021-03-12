@@ -27,6 +27,12 @@ namespace Article.Api.Models
 
         public string AttachmentUri { get; set; }
 
+        [Required]
+        public Category Category { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }
+
         public Article()
         {
             Created = DateTime.UtcNow;

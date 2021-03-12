@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Article.Api", "apis\Article
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "function", "function", "{04BE06B6-CCD8-4376-AAD0-F1E8352F5CDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArticleFunction", "function\ArticleFunction\ArticleFunction.csproj", "{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArticleFunction", "function\ArticleFunction\ArticleFunction.csproj", "{AE7AE0CC-E656-434B-8964-373D8E2FC9C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Search.Api", "apis\Search.Api\Search.Api.csproj", "{6A2C9F5D-30D0-4DCC-BA04-DFB4FAAD3121}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Search.Api", "apis\Search.Api\Search.Api.csproj", "{6A2C9F5D-30D0-4DCC-BA04-DFB4FAAD3121}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

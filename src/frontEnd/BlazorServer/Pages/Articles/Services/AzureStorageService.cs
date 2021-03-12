@@ -21,11 +21,14 @@ namespace BlazorServer.Pages.Articles.Services
             _logger = logger;
         }
 
-        public async Task<string> UploadAsync(string id, Stream file)
+        public async Task<string> UploadAsync(string filename,int id, Stream file)
         {
             try
             {
-                BlobClient blob = _container.GetBlobClient(id);
+                BlobClient blob = _container.GetBlobClient(filename);
+                var dictionnary = new Dictionary<string, string>();
+                dictionnary.Add("articleId", id.ToString());
+                await blob.SetMetadataAsync(dictionnary);
 
                 await blob.UploadAsync(file,false, CancellationToken.None);
 
