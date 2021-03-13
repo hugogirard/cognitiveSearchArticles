@@ -8,5 +8,7 @@ namespace Search.Api.Models
     public class SearchParameter
     {
         public string SearchQuery { get; set; }
+
+        public string Category { get; set; }
     }
 }

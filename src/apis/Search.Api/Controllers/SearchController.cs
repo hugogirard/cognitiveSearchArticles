@@ -22,7 +22,7 @@ namespace Search.Api.Controllers
         [HttpPost]        
         public async Task<IActionResult> GetAsync([FromBody] SearchParameter searchParameter) 
         {
-            var results = await _searchService.RunQueryAsync(searchParameter.SearchQuery);
+            var results = await _searchService.RunQueryAsync(searchParameter);
 
             return new OkObjectResult(results);
         }

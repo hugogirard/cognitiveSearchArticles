@@ -9,16 +9,18 @@ namespace Search.Api.Models
 {
     public class Article
     {
-        [SimpleField(IsKey = true)]
         public string Id { get; set; }
 
-        [SearchableField(AnalyzerName = LexicalAnalyzerName.Values.EnLucene)]
         public string Title { get; set; }
 
-        [SearchableField(AnalyzerName = LexicalAnalyzerName.Values.EnLucene)]
+        public string ShortDescription { get; set; }
+
         public string Text { get; set; }
 
-        [SearchableField(IsFilterable = true)]
+        public string Content { get; set; }
+
+        public string Category { get; set; }
+
         public DateTimeOffset Created { get; set; }
     }
 }

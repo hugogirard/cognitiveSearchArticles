@@ -24,17 +24,37 @@ namespace Search.Api.Service
             _srchclient = new SearchClient(serviceEndpoint, configuration["Search:IndexName"], credential);
         }
 
-        public async Task<IEnumerable<Article>> RunQueryAsync(string query)
+        public async Task<ArticleResult> RunQueryAsync(SearchParameter parameters)
         {
             SearchResults<Article> response;
             SearchOptions options = new SearchOptions
             {
-                IncludeTotalCount = true
+                IncludeTotalCount = true,
+                SearchMode = SearchMode.Any                
             };
 
-            response = await _srchclient.SearchAsync<Article>(query, options);
+            options.Facets.Add("Category");
 
-            return response.GetResults().Select(e => e.Document);
+            if (!string.IsNullOrEmpty(parameters.Category))
+            {
+                options.Filter = $"Category eq '{parameters.Category}'";
+            }
+
+            var articleResult = new ArticleResult();
+
+            response = await _srchclient.SearchAsync<Article>(parameters.SearchQuery, options);
+
+            if (response.TotalCount > 0) 
+            {
+                if (response.Facets.Any()) 
+                { 
+                    articleResult.Facets = response.Facets.First();
+                }
+
+                articleResult.Articles = response.GetResults().Select(e => e.Document);
+            }
+
+            return articleResult;
         }
     }
 }

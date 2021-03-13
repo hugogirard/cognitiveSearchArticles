@@ -6,6 +6,6 @@ namespace Search.Api.Service
 {
     public interface ISearchService
     {
-        Task<IEnumerable<Article>> RunQueryAsync(string query);
+        Task<ArticleResult> RunQueryAsync(SearchParameter parameters);
     }
 }
