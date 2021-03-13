@@ -16,12 +16,11 @@ namespace Article.Shared
 
         public string ShortDescription { get; set; }
 
+        public string Content { get; set; }
 
         public string Text { get; set; }
 
-
         public DateTimeOffset Created { get; set; }
-
 
         public string AttachmentUri { get; set; }
     }

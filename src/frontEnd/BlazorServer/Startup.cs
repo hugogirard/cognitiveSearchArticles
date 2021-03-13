@@ -1,6 +1,7 @@
 using BlazorServer.Data;
 using BlazorServer.Pages.Articles.Services;
 using BlazorServer.Pages.Search.Service;
+using BlazorServer.Service.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;

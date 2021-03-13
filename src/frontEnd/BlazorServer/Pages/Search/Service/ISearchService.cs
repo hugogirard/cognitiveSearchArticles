@@ -1,6 +1,7 @@
 ﻿using BlazorServer.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Article.Shared;
 
 namespace BlazorServer.Pages.Search.Service
 {

@@ -27,5 +27,7 @@ namespace Article.Shared
         public string Value { get; set; }
 
         public long? Count { get; set; }
+
+        public bool Checked { get; set; }
     }
 }

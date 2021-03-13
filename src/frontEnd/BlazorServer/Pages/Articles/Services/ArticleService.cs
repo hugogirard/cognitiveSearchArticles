@@ -1,4 +1,4 @@
-﻿using BlazorServer.Models;
+﻿using Models = BlazorServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +16,9 @@ namespace BlazorServer.Pages.Articles.Services
         {
         }
 
-        public async Task<Article> CreateArticleAsync(NewArticleViewModel vm)
+        public async Task<Models.Article> CreateArticleAsync(NewArticleViewModel vm)
         {
-            var article = new Article
+            var article = new Models.Article
             { 
                 Title = vm.Title,
                 ShortDescription = vm.ShortDescription,
@@ -26,12 +26,12 @@ namespace BlazorServer.Pages.Articles.Services
                 CategoryId =  int.Parse(vm.CategoryId)
             };
 
-            return await base.PostAsync<Article,Article>(article,"article");
+            return await base.PostAsync<Models.Article, Models.Article>(article,"article");
         }
 
-        public async Task<IEnumerable<CategoryList>> GetCategoriesAsync()
+        public async Task<IEnumerable<Models.CategoryList>> GetCategoriesAsync()
         {
-            return await base.GetAsync<IEnumerable<CategoryList>>("category");
+            return await base.GetAsync<IEnumerable<Models.CategoryList>>("category");
         }
     }
 }

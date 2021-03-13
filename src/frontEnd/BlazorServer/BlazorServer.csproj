@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Service\" />
+    <ProjectReference Include="..\..\Shared\Article.Shared\Article.Shared.csproj" />
   </ItemGroup>
 
 </Project>

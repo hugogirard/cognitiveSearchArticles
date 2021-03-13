@@ -1,4 +1,4 @@
-﻿using BlazorServer.Models;
+﻿using Models = BlazorServer.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +6,7 @@ namespace BlazorServer.Pages.Articles.Services
 {
     public interface IArticleService
     {
-        Task<Article> CreateArticleAsync(NewArticleViewModel vm);
-        Task<IEnumerable<CategoryList>> GetCategoriesAsync();
+        Task<Models.Article> CreateArticleAsync(NewArticleViewModel vm);
+        Task<IEnumerable<Models.CategoryList>> GetCategoriesAsync();
     }
 }

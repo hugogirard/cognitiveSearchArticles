@@ -1,0 +1,59 @@
+﻿@page "/viewArticle"
+@inject IJSRuntime _js
+@inject NavigationManager _navigationManager
+
+
+@if (Article != null)
+{
+    <div class="row">
+        <div class="col-md-1">
+            <button class="btn btn-primary" @onclick="Back">Back</button>
+        </div>        
+    </div>
+    <div class="row">
+        <form>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" @bind-value="Article.Title" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="ShortDescription" class="form-label">ShortDescription</label>
+                <input type="text" class="form-control" id="ShortDescription" @bind-value="Article.ShortDescription" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="Category" class="form-label">Category</label>
+                <input type="text" class="form-control" id="Category" @bind-value="Article.Category" readonly>
+            </div>
+            <div class="mb-3">
+                <h3>Text</h3>
+                @((MarkupString)Article.Text)                
+            </div>
+            @if (!string.IsNullOrEmpty(Article.Content))
+            {
+                <div class="mb-3">
+                    <h3>Attachment Content</h3>
+                    @((MarkupString)Article.Content)            
+                </div>
+            }
+        </form>
+    </div>
+}
+
+
+
+@code {
+    public ArticleIndex Article { get; set; }
+
+    private void Back()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Article = await LocalStorage.GetAsync<ArticleIndex>(_js, "article");
+
+        await LocalStorage.DeleteAsync(_js, "article");
+    }
+
+}
