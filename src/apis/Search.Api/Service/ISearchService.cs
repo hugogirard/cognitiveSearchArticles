@@ -1,4 +1,4 @@
-﻿using Search.Api.Models;
+﻿using Article.Shared;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

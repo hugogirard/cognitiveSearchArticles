@@ -6,6 +6,6 @@ namespace BlazorServer.Pages.Search.Service
 {
     public interface ISearchService
     {
-        Task<IEnumerable<Article>> SearchAsync(string query);
+        Task<ArticleResult> SearchAsync(string query, string category);
     }
 }

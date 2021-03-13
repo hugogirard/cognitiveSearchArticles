@@ -8,7 +8,8 @@ using Azure.Search.Documents;
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
 using Azure.Search.Documents.Models;
-using Search.Api.Models;
+using Article.Shared;
+using Article.Shared;
 
 namespace Search.Api.Service
 {
@@ -26,7 +27,7 @@ namespace Search.Api.Service
 
         public async Task<ArticleResult> RunQueryAsync(SearchParameter parameters)
         {
-            SearchResults<Article> response;
+            SearchResults<Article.Shared.ArticleIndex> response;
             SearchOptions options = new SearchOptions
             {
                 IncludeTotalCount = true,
@@ -42,13 +43,20 @@ namespace Search.Api.Service
 
             var articleResult = new ArticleResult();
 
-            response = await _srchclient.SearchAsync<Article>(parameters.SearchQuery, options);
+            response = await _srchclient.SearchAsync<Article.Shared.ArticleIndex>(parameters.SearchQuery, options);
 
             if (response.TotalCount > 0) 
             {
                 if (response.Facets.Any()) 
                 { 
-                    articleResult.Facets = response.Facets.First();
+                    var facets = response.Facets.First();
+
+                    articleResult.Facets.Key = facets.Key;
+                    articleResult.Facets.Value = facets.Value.Select(e => new KeyValue 
+                    { 
+                        Value = e.Value.ToString(),
+                        Count = e.Count
+                    });
                 }
 
                 articleResult.Articles = response.GetResults().Select(e => e.Document);

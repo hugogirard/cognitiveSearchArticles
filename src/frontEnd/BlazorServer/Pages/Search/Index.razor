@@ -1,24 +1,57 @@
 ﻿@page "/"
 @inject ISearchService _searchService
 
-<div class="row">
-    <div class="col-md">
-        <EditForm Model="VM" OnValidSubmit="@HandleValidSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md">
+            <EditForm Model="VM" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-            <div class="form-group">
-                <label for="search" class="form-label">Search</label>
-                <input type="text" class="form-control" id="search" @bind-value="VM.SearchQuery" placeholder="Enter search query">
-            </div>
+                <div class="mb-3">
+                    <label for="search" class="form-label">Search</label>
+                    <input type="text" class="form-control" id="search" @bind-value="VM.SearchQuery" placeholder="Enter search query">
+                </div>
 
-            <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">Search</button>
 
-        </EditForm>
+            </EditForm>
+        </div>
     </div>
 </div>
 
-<div class="row">
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="facetPanel" class="col-sm-3 col-md-3 sidebar collapse">
+            <div id="clearFilters"></div>
+            <ul class="nav nav-sidebar">
+                <div className="panel panel-primary behclick-panel">
+                    @if (!string.IsNullOrEmpty(SearchResult.Facets.Key))
+                    {
+                        @foreach (var facet in SearchResult.Facets.Value)
+                        {
+                            <li>
+                                <div id="CategoryFacet">
+                                    @facet
+                                </div>
+                            </li>
+                        }
+                    }
+                </div>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-9 col-md-offset-3 results_section">
+            <div id="results" class="row placeholders">
+
+            </div>
+            <div id="pager" class="row">
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="row">
     @if (Articles.Any())
     {
         <table class="table table-striped table-hover">
@@ -43,17 +76,17 @@
             </tbody>
         </table>     
     }
-</div>
+</div>*@
 
 
 @code {
 
     public SearchViewModel VM { get; set; } = new SearchViewModel();
 
-    private IEnumerable<Models.Article> Articles = new List<Models.Article>();
+    private ArticleResult SearchResult = new ArticleResult();
 
     private async Task HandleValidSubmit()
     {
-        Articles = await _searchService.SearchAsync(VM.SearchQuery);
+        SearchResult = await _searchService.SearchAsync(VM.SearchQuery,string.Empty);
     }
 }

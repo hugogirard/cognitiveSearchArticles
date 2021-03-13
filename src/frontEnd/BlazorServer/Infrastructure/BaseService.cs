@@ -34,6 +34,18 @@ namespace BlazorServer.Infrastructure
             return JsonSerializer.Deserialize<Y>(jsonResponse, _options);
         }
 
+        public virtual async Task<Y> PostAsync<Y>(dynamic content, string url) where Y: class
+        {
+            var serializedObject = JsonSerializer.Serialize(content, _options);
+            var jsoncontent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+
+            var response = await this._http.PostAsync(url, jsoncontent);
+
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<Y>(jsonResponse, _options);
+        }
+
         public virtual async Task<Y> GetAsync<Y>(string url) where Y : class 
         {
             var response = await this._http.GetAsync(url);

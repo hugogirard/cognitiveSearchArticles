@@ -1,4 +1,5 @@
-﻿using BlazorServer.Models;
+﻿using BlazorServer.Infrastructure;
+using BlazorServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -10,28 +11,22 @@ using System.Threading.Tasks;
 
 namespace BlazorServer.Pages.Search.Service
 {
-    public class SearchService : ISearchService
+    public class SearchService : BaseService, ISearchService
     {
-        private readonly HttpClient _httpClient;
-
-        public SearchService(HttpClient httpClient)
+        public SearchService(HttpClient client) : base(client)
         {
-            _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<Article>> SearchAsync(string query)
+        public async Task<ArticleResult> SearchAsync(string query,string category)
         {
             dynamic parameters = new ExpandoObject();
             parameters.SearchQuery = query;
 
-            var serializedObject = JsonSerializer.Serialize(parameters);
-            var jsoncontent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+            if (!string.IsNullOrEmpty(category))
+                parameters.Category = category;
 
-            var response = await this._httpClient.PostAsync(string.Empty, jsoncontent);
-
-            var results = await response.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<IEnumerable<Article>>(results);
+            return await base.PostAsync<ArticleResult>((object)parameters,string.Empty);
         }
+
     }
 }

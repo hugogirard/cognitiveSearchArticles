@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Search.Api.Models;
+using Article.Shared;
 using Search.Api.Service;
 using System;
 using System.Collections.Generic;
