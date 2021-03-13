@@ -55,7 +55,8 @@ namespace Article.Api.Controllers
             {
                 Title = article.Title,
                 ShortDescription = article.ShortDescription,
-                Text = article.Text
+                Text = article.Text,
+                CategoryId = article.CategoryId
             };
 
             await _context.Articles.AddAsync(newArticle);

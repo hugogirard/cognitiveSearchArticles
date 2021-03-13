@@ -22,7 +22,8 @@ namespace BlazorServer.Pages.Articles.Services
             { 
                 Title = vm.Title,
                 ShortDescription = vm.ShortDescription,
-                Text = vm.Content
+                Text = vm.Content,
+                CategoryId =  int.Parse(vm.CategoryId)
             };
 
             return await base.PostAsync<Article,Article>(article,"article");

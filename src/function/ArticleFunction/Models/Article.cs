@@ -27,12 +27,9 @@ namespace ArticleFunction.Models
 
         [SearchableField(AnalyzerName = LexicalAnalyzerName.Values.EnLucene)]        
         public string Content { get; set; }
-
-        [JsonProperty("metadata_storage_path")]
-        public string StoragePath { get; set; }
-
-        [SearchableField(IsFilterable = true, IsFacetable = true)]
-        public string[] Category { get; set; }
+        
+        [SearchableField(IsFilterable = true, IsFacetable = true, AnalyzerName = LexicalAnalyzerName.Values.EnLucene)]
+        public string Category { get; set; }
 
         [SearchableField(IsFilterable = true, IsFacetable = true)]
         public string[] Keyphrases { get; set; }

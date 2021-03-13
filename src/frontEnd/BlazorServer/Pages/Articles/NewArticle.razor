@@ -28,9 +28,9 @@
                     <InputSelect id="categoryId" @bind-Value="VM.CategoryId" @attributes="SelectAttributes">
                         <option value="Select" selected disabled="disabled">(Choose Category)</option>
                         @foreach (var category in Categories)
-                            {
+                        {
                             <option value="@category.Id">@category.Name</option>
-                            }
+                        }
                     </InputSelect>
                 </div>
 
@@ -143,36 +143,37 @@
         try
         {
 
+
             var article = await _articleService.CreateArticleAsync(VM);
 
-            if (_file != null)
-            {
-                string[] filesParth = VM.Filename.Split('.');
-                string fileExtension = string.Empty;
-                string filename = string.Empty;
-                string uniqueId = Guid.NewGuid().ToString();
+            //if (_file != null)
+            //{
+            //    string[] filesParth = VM.Filename.Split('.');
+            //    string fileExtension = string.Empty;
+            //    string filename = string.Empty;
+            //    string uniqueId = Guid.NewGuid().ToString();
 
-                if (filesParth.Length > 1)
-                {
-                    fileExtension = filesParth[filesParth.Length - 1];
-                }
+            //    if (filesParth.Length > 1)
+            //    {
+            //        fileExtension = filesParth[filesParth.Length - 1];
+            //    }
 
 
-                if (!string.IsNullOrEmpty(fileExtension))
-                {
-                    filename = $"{uniqueId}.{fileExtension}";
-                }
-                else
-                {
-                    filename = uniqueId;
-                }
+            //    if (!string.IsNullOrEmpty(fileExtension))
+            //    {
+            //        filename = $"{uniqueId}.{fileExtension}";
+            //    }
+            //    else
+            //    {
+            //        filename = uniqueId;
+            //    }
 
-                VM.FileUri = await _storageService.UploadAsync(filename,article.Id, _file);
+            //    VM.FileUri = await _storageService.UploadAsync(filename,article.Id, _file);
 
-                await _file.DisposeAsync();
+            //    await _file.DisposeAsync();
 
-                _file = null;
-            }
+            //    _file = null;
+            //}
 
             NavigationManager.NavigateTo("/");
 

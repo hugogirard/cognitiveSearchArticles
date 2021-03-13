@@ -14,6 +14,9 @@ namespace BlazorServer.Models
         [JsonProperty("title")]
         public string Title { get; set; }
 
+        [JsonProperty("categoryId")]
+        public int CategoryId { get; set; }
+
         [JsonProperty("shortDescription")]
         public string ShortDescription { get; set; }
 

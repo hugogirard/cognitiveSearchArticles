@@ -148,7 +148,13 @@ namespace ArticleFunction
             var sqlDataSource = new SearchIndexerDataSourceConnection(name: "sqldatasource",
                                                                       type: SearchIndexerDataSourceType.AzureSql,
                                                                       connectionString: Environment.GetEnvironmentVariable("SqlConnectionString"),
-                                                                      container: new SearchIndexerDataContainer("Articles"));
+                                                                      container: new SearchIndexerDataContainer("Articles") 
+                                                                      { 
+                                                                        Query = @"SELECT a.*,c.Name as Category  
+                                                                                    FROM [dbo].[Articles] a
+                                                                                         JOIN [dbo].[Categories] c        
+                                                                                         ON a.CategoryId = c.Id"
+                                                                      });
 
             await this.SearchIndexerClient.CreateOrUpdateDataSourceConnectionAsync(sqlDataSource);
 

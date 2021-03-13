@@ -27,7 +27,6 @@ namespace Article.Api.Models
 
         public string AttachmentUri { get; set; }
 
-        [Required]
         public Category Category { get; set; }
 
         [Required]
