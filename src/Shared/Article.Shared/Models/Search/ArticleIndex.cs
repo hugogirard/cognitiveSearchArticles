@@ -23,5 +23,9 @@ namespace Article.Shared
         public DateTimeOffset Created { get; set; }
 
         public string AttachmentUri { get; set; }
+
+        public string Metadata_storage_path { get; set; }
+        
+        public string FilePath => Encoding.UTF8.GetString(Convert.FromBase64String(this.Metadata_storage_path));
     }
 }

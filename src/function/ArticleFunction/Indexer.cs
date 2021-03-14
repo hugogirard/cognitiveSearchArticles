@@ -113,11 +113,6 @@ namespace ArticleFunction
                 }
             };
                 
-                
-            //    .IndexingParametersConfiguration = new IndexingParametersConfiguration
-            //{
-            //    DataToExtract = BlobIndexerDataToExtract.ContentAndMetadata                
-            //};
             storageIndexer.OutputFieldMappings.Add(new FieldMapping("/document/content/keyphrases") { TargetFieldName= "Keyphrases" });
             try
             {

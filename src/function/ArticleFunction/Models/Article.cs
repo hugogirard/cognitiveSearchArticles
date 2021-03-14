@@ -34,5 +34,8 @@ namespace ArticleFunction.Models
         [SearchableField(IsFilterable = true, IsFacetable = true)]
         public string[] Keyphrases { get; set; }
 
+        [SimpleField]
+        public string Metadata_storage_path { get; set; }
+
     }
 }

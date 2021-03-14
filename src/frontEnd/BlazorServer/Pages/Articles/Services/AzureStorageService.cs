@@ -28,9 +28,9 @@ namespace BlazorServer.Pages.Articles.Services
                 BlobClient blob = _container.GetBlobClient(filename);
                 var dictionnary = new Dictionary<string, string>();
                 dictionnary.Add("articleId", id.ToString());
-                await blob.SetMetadataAsync(dictionnary);
 
                 await blob.UploadAsync(file,false, CancellationToken.None);
+                await blob.SetMetadataAsync(dictionnary);
 
                 return blob.Uri.ToString();
             }
